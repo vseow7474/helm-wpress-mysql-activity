@@ -6,9 +6,9 @@ metadata:
     app: wordpress
 spec:
   ports:
-    - port: 80
+    - port: 80 # solution: corrected port number
   selector:
-    app: wordpress
+    app: wordpress # solution: corrected labels
   type: LoadBalancer
 # ---
 # apiVersion: v1
@@ -47,13 +47,13 @@ spec:
         name: wordpress
         env:
         - name: WORDPRESS_DB_HOST
-          value: mysql #mysql.default.svc.cluster.local
+          value: mysql # solution: url of mysql service (e.g. mysql / mysql.<namespace>.svc / mysql.<namespace>.svc.cluster.local)
         - name: WORDPRESS_DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
+              name: mysql-secret # solution: value defined in mysql secrets
               key: password
-        - name: WORDPRESS_DB_USER
+        - name: WORDPRESS_DB_USER # solution: value defined in mysql deployment
           value: dbuser
         ports:
         - containerPort: 80

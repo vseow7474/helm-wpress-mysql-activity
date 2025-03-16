@@ -29,6 +29,7 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          # solution start: include required environment variables
           env:
             - name: WORDPRESS_DB_HOST
               value: {{ .Values.database.host | quote }}
@@ -39,6 +40,7 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.database.secretName | quote }}
                   key: {{ .Values.database.secretKey | quote }}
+          # solution end: include required environment variables
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -47,12 +49,14 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          # solution start: modified probe
           livenessProbe:
             tcpSocket:
               port: 80
           readinessProbe:
             tcpSocket:
               port: 80
+          # solution end: modified probe
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
