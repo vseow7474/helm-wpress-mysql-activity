@@ -7,7 +7,7 @@ spec:
   source:
     repoURL: "https://github.com/vseow7474/helm-wpress-mysql-activity.git"
     targetRevision: main
-    path: helm-wpress-mysql-activity
+    path: manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: victor-ns
