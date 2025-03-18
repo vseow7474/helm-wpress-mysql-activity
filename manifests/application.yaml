@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: victor-app
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/vseow7474/helm-wpress-mysql-activity.git"
+    targetRevision: main
+    path: helm-wpress-mysql-activity
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: victor-ns
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
